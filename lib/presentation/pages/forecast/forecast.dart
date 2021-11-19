@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:forecast/constants.dart';
+import 'package:forecast/presentation/pages/forecast/forecast_notification.dart';
 import 'package:forecast/presentation/pages/forecast/forecast_report.dart';
 
 class ForecastScreen extends StatefulWidget {
@@ -10,6 +11,7 @@ class ForecastScreen extends StatefulWidget {
 
 class _ForecastScreenState extends State<ForecastScreen> {
   bool showReport = false;
+  bool showNotifications = false;
 
   @override
   Widget build(BuildContext context) {
@@ -52,16 +54,23 @@ class _ForecastScreenState extends State<ForecastScreen> {
                             ],
                           ),
                         ),
-                        Container(
-                          decoration: BoxDecoration(
-                              color: kPrimaryTransparentColor,
-                              borderRadius: BorderRadius.circular(10)),
-                          width: 44,
-                          height: 44,
-                          child: Center(
-                            child: Icon(
-                              Icons.notifications,
-                              color: Colors.white,
+                        InkWell(
+                          onTap: () {
+                            setState(() {
+                              showNotifications = true;
+                            });
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: kPrimaryTransparentColor,
+                                borderRadius: BorderRadius.circular(10)),
+                            width: 44,
+                            height: 44,
+                            child: Center(
+                              child: Icon(
+                                Icons.notifications,
+                                color: Colors.white,
+                              ),
                             ),
                           ),
                         )
@@ -195,6 +204,22 @@ class _ForecastScreenState extends State<ForecastScreen> {
                       onDismiss: () {
                         setState(() {
                           showReport = false;
+                        });
+                      },
+                    ),
+                  ),
+                  duration: Duration(milliseconds: 200)),
+              AnimatedPositioned(
+                  top: showNotifications == false
+                      ? MediaQuery.of(context).size.height * 1.5
+                      : 0,
+                  child: SizedBox(
+                    height: MediaQuery.of(context).size.height,
+                    width: MediaQuery.of(context).size.width,
+                    child: ForecastNotification(
+                      onDismiss: () {
+                        setState(() {
+                          showNotifications = false;
                         });
                       },
                     ),
