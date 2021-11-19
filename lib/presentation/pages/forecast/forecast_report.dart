@@ -1,5 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:forecast/constants.dart';
+import 'package:forecast/presentation/widgets/narrow_forecast_tile.dart';
+import 'package:forecast/presentation/widgets/wide_forecast_tile.dart';
 
 class ForecastReport extends StatelessWidget {
   final Function()? onDismiss;
@@ -74,7 +77,110 @@ class ForecastReport extends StatelessWidget {
                             ],
                           ),
                         ),
-                      )
+                      ),
+                      SizedBox(
+                        height: 39,
+                      ),
+                      Expanded(
+                          child: SingleChildScrollView(
+                        physics: BouncingScrollPhysics(),
+                        child: Column(
+                          children: [
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                "Today",
+                                style: TextStyle(
+                                    fontSize: 22, fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 15,
+                            ),
+                            Container(
+                              width: double.infinity,
+                              height: 110,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(11),
+                                  border: Border.all(
+                                      color: Color(0xffD5C7FF), width: 0.5)),
+                              child: Padding(
+                                padding: EdgeInsets.all(10),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  children: [
+                                    NarrowForecastTile(),
+                                    NarrowForecastTile(),
+                                    NarrowForecastTile(),
+                                    NarrowForecastTile(),
+                                    NarrowForecastTile(),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 40,
+                            ),
+                            Row(
+                              mainAxisSize: MainAxisSize.max,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  "Next forecast",
+                                  style: TextStyle(
+                                      fontSize: 22,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                Container(
+                                  width: 100,
+                                  height: 36,
+                                  decoration: BoxDecoration(
+                                      color: kPrimaryColor,
+                                      borderRadius: BorderRadius.circular(8)),
+                                  child: Center(
+                                    child: Text(
+                                      "Five Days",
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 11,
+                                          fontWeight: FontWeight.w600),
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Container(
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(11),
+                                  border: Border.all(
+                                      color: Color(0xffD5C7FF), width: 0.5)),
+                              child: Padding(
+                                padding: EdgeInsets.all(10),
+                                child: Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  children: [
+                                    WideForecastTile(),
+                                    Divider(),
+                                    WideForecastTile(),
+                                    Divider(),
+                                    WideForecastTile(),
+                                    Divider(),
+                                    WideForecastTile(),
+                                    Divider(),
+                                    WideForecastTile(),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ))
                     ],
                   ),
                 ),
