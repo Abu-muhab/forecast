@@ -9,7 +9,6 @@ abstract class ForecastRestClient {
   factory ForecastRestClient(Dio dio, {String baseUrl}) = _ForecastRestClient;
 
   @GET("/onecall")
-  Future<AggregateForecast> getAggregateForecast(
-      @Query("lat") double lat, @Query("lon") double lon,
-      {@Query("appid") String apiKey = "660591836ec3ecb62d7152096a6026b5"});
+  Future<AggregateForecast> getAggregateForecast(@Query("lat") double lat,
+      @Query("lon") double lon, @Query("appid") String apiKey);
 }

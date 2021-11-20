@@ -16,8 +16,7 @@ class _ForecastRestClient implements ForecastRestClient {
   String? baseUrl;
 
   @override
-  Future<AggregateForecast> getAggregateForecast(lat, lon,
-      {apiKey = "660591836ec3ecb62d7152096a6026b5"}) async {
+  Future<AggregateForecast> getAggregateForecast(lat, lon, apiKey) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'lat': lat,

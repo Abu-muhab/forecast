@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:forecast/injection_container.dart';
 import 'package:forecast/presentation/pages/forecast/forecast.dart';
 
-void main() {
+void main() async {
+  await init();
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

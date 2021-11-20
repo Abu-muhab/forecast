@@ -1,8 +1,8 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:forecast/constants.dart';
-import 'package:forecast/data/network/forecast_rest_client.dart';
+import 'package:forecast/domain/usecases/get_aggregate_forecast.dart';
+import 'package:forecast/injection_container.dart';
 import 'package:forecast/presentation/pages/forecast/forecast_notification.dart';
 import 'package:forecast/presentation/pages/forecast/forecast_report.dart';
 
@@ -16,11 +16,7 @@ class _ForecastScreenState extends State<ForecastScreen> {
   bool showNotifications = false;
 
   void test() async {
-    final dio = Dio();
-    final client = ForecastRestClient(dio);
-    client
-        .getAggregateForecast(9.0765, 7.3986)
-        .then((value) => print(value.toJson()));
+    sl<GetAggregateForecast>().call(params: Params(lat: 9.0765,lon: 7.3986)).then((value) => print(value.toJson()));
   }
 
   @override

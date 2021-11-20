@@ -31,7 +31,8 @@ dependencies:
   retrofit: ^2.0.1
   dio: ^4.0.0
   json_annotation: ^4.0.1
-  data_connection_checker: ^0.3.4
+  connectivity: ^3.0.6
+  get_it: ^7.2.0
 
 dev_dependencies:
   flutter_test:

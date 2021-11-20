@@ -13,6 +13,7 @@ class ForecastRemoteDataSourceImpl implements ForecastRemoteDataSource {
 
   @override
   Future<AggregateForecast> getAggregateForecast(double lat, double lon) {
-    return forecastRestClient!.getAggregateForecast(lat, lon);
+    return forecastRestClient!
+        .getAggregateForecast(lat, lon, "660591836ec3ecb62d7152096a6026b5");
   }
 }
