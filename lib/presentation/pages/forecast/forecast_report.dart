@@ -1,8 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:forecast/constants.dart';
+import 'package:forecast/data/models/day_summary_forecast_model.dart';
+import 'package:forecast/data/models/forecast_model.dart';
+import 'package:forecast/presentation/providers/forecast_model.dart';
 import 'package:forecast/presentation/widgets/narrow_forecast_tile.dart';
 import 'package:forecast/presentation/widgets/wide_forecast_tile.dart';
+import 'package:provider/provider.dart';
 
 class ForecastReport extends StatelessWidget {
   final Function()? onDismiss;
@@ -106,16 +110,23 @@ class ForecastReport extends StatelessWidget {
                                       color: Color(0xffD5C7FF), width: 0.5)),
                               child: Padding(
                                 padding: EdgeInsets.all(10),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
-                                  children: [
-                                    NarrowForecastTile(),
-                                    NarrowForecastTile(),
-                                    NarrowForecastTile(),
-                                    NarrowForecastTile(),
-                                    NarrowForecastTile(),
-                                  ],
+                                child: Selector<ForecastModel, List<Forecast>?>(
+                                  selector: (context, model) =>
+                                      model.fiveHoursForecast,
+                                  builder: (context, fiveHoursForecast, _) {
+                                    if (fiveHoursForecast == null) {
+                                      return Container();
+                                    }
+                                    return Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceAround,
+                                      children: fiveHoursForecast
+                                          .map((e) => NarrowForecastTile(
+                                                forecast: e,
+                                              ))
+                                          .toList(),
+                                    );
+                                  },
                                 ),
                               ),
                             ),
@@ -161,20 +172,30 @@ class ForecastReport extends StatelessWidget {
                                       color: Color(0xffD5C7FF), width: 0.5)),
                               child: Padding(
                                 padding: EdgeInsets.all(10),
-                                child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
-                                  children: [
-                                    WideForecastTile(),
-                                    Divider(),
-                                    WideForecastTile(),
-                                    Divider(),
-                                    WideForecastTile(),
-                                    Divider(),
-                                    WideForecastTile(),
-                                    Divider(),
-                                    WideForecastTile(),
-                                  ],
+                                child: Selector<ForecastModel,
+                                    List<DaySummaryForecast>?>(
+                                  selector: (context, model) =>
+                                      model.fiveDaysForecast,
+                                  builder: (context, fiveDaysForecast, _) {
+                                    if (fiveDaysForecast == null) {
+                                      return Container();
+                                    }
+                                    return Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceAround,
+                                      children: fiveDaysForecast
+                                          .map((e) => Column(
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: [
+                                                  WideForecastTile(
+                                                    forecast: e,
+                                                  ),
+                                                  Divider()
+                                                ],
+                                              ))
+                                          .toList(),
+                                    );
+                                  },
                                 ),
                               ),
                             ),

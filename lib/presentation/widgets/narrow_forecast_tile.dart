@@ -1,6 +1,10 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:forecast/data/models/forecast_model.dart';
 
 class NarrowForecastTile extends StatelessWidget {
+  final Forecast forecast;
+  NarrowForecastTile({required this.forecast});
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -15,7 +19,7 @@ class NarrowForecastTile extends StatelessWidget {
               width: 20,
               child: FittedBox(
                 child: Text(
-                  "28",
+                  "${forecast.tempC.toInt()}",
                   style: TextStyle(color: Colors.black),
                 ),
               ),
@@ -30,18 +34,31 @@ class NarrowForecastTile extends StatelessWidget {
           ],
         ),
         SizedBox(
-          height: 15,
+          height: 5,
         ),
         SizedBox(
-          height: 25,
-          width: 25,
-          child: Image.asset("images/fullsun.png"),
+          height: 40,
+          width: 40,
+          child: CachedNetworkImage(
+            imageUrl: forecast.weather[0].imageUrl,
+            placeholder: (context, _) {
+              return Center(
+                child: SizedBox(
+                  height: 20,
+                  width: 20,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 3,
+                  ),
+                ),
+              );
+            },
+          ),
         ),
         SizedBox(
-          height: 15,
+          height: 5,
         ),
         Text(
-          "8 am",
+          "${forecast.formattedTime}",
           style: TextStyle(color: Colors.black, fontSize: 10),
         )
       ],

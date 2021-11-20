@@ -33,6 +33,15 @@ class CurrentForecastCard extends StatelessWidget {
                   child: CachedNetworkImage(
                     imageUrl: forecast.weather.first.imageUrl,
                     fit: BoxFit.fitWidth,
+                    placeholder: (context, _) {
+                      return Center(
+                        child: SizedBox(
+                          height: 20,
+                          width: 20,
+                          child: CircularProgressIndicator(),
+                        ),
+                      );
+                    },
                   ),
                 ),
                 Column(
