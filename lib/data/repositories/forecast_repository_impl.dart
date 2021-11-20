@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:forecast/data/datasources/forecast_local_data_source.dart';
 import 'package:forecast/data/datasources/forecast_remote_data_scource.dart';
 import 'package:forecast/data/models/aggregate_forecast_model.dart';
