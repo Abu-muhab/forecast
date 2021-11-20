@@ -4,10 +4,10 @@ import 'package:forecast/data/models/day_summary_forecast_model.dart';
 import 'package:forecast/data/models/forecast_model.dart';
 import 'package:forecast/domain/usecases/get_aggregate_forecast.dart';
 
-class ForecastModel extends ChangeNotifier {
+class ForecastProvider extends ChangeNotifier {
   final GetAggregateForecast getAggregateForecast;
 
-  ForecastModel({required this.getAggregateForecast});
+  ForecastProvider({required this.getAggregateForecast});
 
   bool _isLoading = false;
 

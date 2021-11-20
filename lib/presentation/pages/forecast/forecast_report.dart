@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:forecast/constants.dart';
 import 'package:forecast/data/models/day_summary_forecast_model.dart';
 import 'package:forecast/data/models/forecast_model.dart';
-import 'package:forecast/presentation/providers/forecast_model.dart';
+import 'package:forecast/presentation/providers/forecast_provider.dart';
 import 'package:forecast/presentation/widgets/narrow_forecast_tile.dart';
 import 'package:forecast/presentation/widgets/wide_forecast_tile.dart';
 import 'package:provider/provider.dart';
@@ -110,7 +110,8 @@ class ForecastReport extends StatelessWidget {
                                       color: Color(0xffD5C7FF), width: 0.5)),
                               child: Padding(
                                 padding: EdgeInsets.all(10),
-                                child: Selector<ForecastModel, List<Forecast>?>(
+                                child:
+                                    Selector<ForecastProvider, List<Forecast>?>(
                                   selector: (context, model) =>
                                       model.fiveHoursForecast,
                                   builder: (context, fiveHoursForecast, _) {
@@ -172,7 +173,7 @@ class ForecastReport extends StatelessWidget {
                                       color: Color(0xffD5C7FF), width: 0.5)),
                               child: Padding(
                                 padding: EdgeInsets.all(10),
-                                child: Selector<ForecastModel,
+                                child: Selector<ForecastProvider,
                                     List<DaySummaryForecast>?>(
                                   selector: (context, model) =>
                                       model.fiveDaysForecast,

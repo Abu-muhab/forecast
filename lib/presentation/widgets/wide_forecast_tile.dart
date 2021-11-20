@@ -16,8 +16,8 @@ class WideForecastTile extends StatelessWidget {
           style: TextStyle(color: Colors.black, fontSize: 12),
         ),
         SizedBox(
-          height: 27*1.2,
-          width: 48*1.2,
+          height: 27 * 1.2,
+          width: 48 * 1.2,
           child: CachedNetworkImage(
             imageUrl: forecast.weather[0].imageUrl,
             placeholder: (context, _) {

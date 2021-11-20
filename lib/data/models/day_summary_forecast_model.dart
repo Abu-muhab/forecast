@@ -19,7 +19,7 @@ class DaySummaryForecast {
   Map<String, dynamic> toJson() => _$DaySummaryForecastToJson(this);
 
   double get tempC {
-    return ((temp.max+temp.min)/2) - 273;
+    return ((temp.max + temp.min) / 2) - 273;
   }
 
   DateTime get date {

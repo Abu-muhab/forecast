@@ -6,14 +6,17 @@ import 'package:forecast/data/network/network_info.dart';
 import 'package:forecast/data/repositories/forecast_repository_impl.dart';
 import 'package:forecast/domain/repositories/forecast_repository.dart';
 import 'package:forecast/domain/usecases/get_aggregate_forecast.dart';
-import 'package:forecast/presentation/providers/forecast_model.dart';
+import 'package:forecast/presentation/providers/forecast_provider.dart';
+import 'package:forecast/presentation/providers/location_provider.dart';
 import 'package:get_it/get_it.dart';
+import 'package:location/location.dart';
 
 final sl = GetIt.instance;
 
 Future<void> init() async {
   //providers
-  sl.registerFactory(() => ForecastModel(getAggregateForecast: sl()));
+  sl.registerFactory(() => ForecastProvider(getAggregateForecast: sl()));
+  sl.registerFactory(() => LocationProvider(location: sl()));
 
   //use cases
   sl.registerLazySingleton(() => GetAggregateForecast(sl()));
@@ -36,4 +39,5 @@ Future<void> init() async {
 
   //external
   sl.registerLazySingleton(() => Dio());
+  sl.registerLazySingleton(() => Location());
 }
