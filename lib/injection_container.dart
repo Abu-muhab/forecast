@@ -6,11 +6,15 @@ import 'package:forecast/data/network/network_info.dart';
 import 'package:forecast/data/repositories/forecast_repository_impl.dart';
 import 'package:forecast/domain/repositories/forecast_repository.dart';
 import 'package:forecast/domain/usecases/get_aggregate_forecast.dart';
+import 'package:forecast/presentation/providers/forecast_model.dart';
 import 'package:get_it/get_it.dart';
 
 final sl = GetIt.instance;
 
 Future<void> init() async {
+  //providers
+  sl.registerFactory(() => ForecastModel(getAggregateForecast: sl()));
+
   //use cases
   sl.registerLazySingleton(() => GetAggregateForecast(sl()));
 

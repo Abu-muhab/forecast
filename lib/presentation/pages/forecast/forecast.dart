@@ -1,10 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:forecast/constants.dart';
-import 'package:forecast/domain/usecases/get_aggregate_forecast.dart';
-import 'package:forecast/injection_container.dart';
+import 'package:forecast/data/models/aggregate_forecast_model.dart';
+import 'package:forecast/presentation/pages/forecast/current_forecast_card.dart';
 import 'package:forecast/presentation/pages/forecast/forecast_notification.dart';
 import 'package:forecast/presentation/pages/forecast/forecast_report.dart';
+import 'package:forecast/presentation/providers/forecast_model.dart';
+import 'package:provider/provider.dart';
+import 'package:tuple/tuple.dart';
 
 class ForecastScreen extends StatefulWidget {
   @override
@@ -15,13 +18,8 @@ class _ForecastScreenState extends State<ForecastScreen> {
   bool showReport = false;
   bool showNotifications = false;
 
-  void test() async {
-    sl<GetAggregateForecast>().call(params: Params(lat: 9.0765,lon: 7.3986)).then((value) => print(value.toJson()));
-  }
-
   @override
   void initState() {
-    test();
     super.initState();
   }
 
@@ -44,28 +42,36 @@ class _ForecastScreenState extends State<ForecastScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Container(
-                          padding: EdgeInsets.only(left: 20, right: 20),
-                          decoration: BoxDecoration(
-                              color: kPrimaryTransparentColor,
-                              borderRadius: BorderRadius.circular(20)),
-                          height: 43,
-                          child: Row(
-                            children: [
-                              Icon(
-                                Icons.location_on,
-                                color: Colors.white,
-                              ),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              Text(
-                                "Lagos, Nigeria",
-                                style: TextStyle(color: Colors.white),
-                              )
-                            ],
-                          ),
-                        ),
+                        Selector<ForecastModel, Tuple2>(
+                            selector: (context, model) => Tuple2(
+                                model.isLoading, model.aggregateForecast),
+                            builder: (context, tuple2, _) {
+                              return Container(
+                                padding: EdgeInsets.only(left: 20, right: 20),
+                                decoration: BoxDecoration(
+                                    color: kPrimaryTransparentColor,
+                                    borderRadius: BorderRadius.circular(20)),
+                                height: 43,
+                                child: Row(
+                                  children: [
+                                    Icon(
+                                      Icons.location_on,
+                                      color: Colors.white,
+                                    ),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    Text(
+                                      tuple2.item1 == true ||
+                                              tuple2.item2 == null
+                                          ? ""
+                                          : "${(tuple2.item2 as AggregateForecast).location!.formattedLocation}",
+                                      style: TextStyle(color: Colors.white),
+                                    )
+                                  ],
+                                ),
+                              );
+                            }),
                         InkWell(
                           onTap: () {
                             setState(() {
@@ -90,89 +96,102 @@ class _ForecastScreenState extends State<ForecastScreen> {
                     ),
                     Expanded(
                         child: Center(
-                      child: Container(
-                        decoration: BoxDecoration(
-                            color: kPrimaryTransparentColor,
-                            borderRadius: BorderRadius.circular(10),
-                            border: Border.all(
-                                width: 1.5, color: Color(0xffB9BCF2))),
-                        width: double.infinity,
-                        height: 350,
-                        child: Center(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Row(
-                                mainAxisSize: MainAxisSize.min,
-                                crossAxisAlignment: CrossAxisAlignment.center,
+                      child: Selector<ForecastModel, Tuple2>(
+                        selector: (context, model) =>
+                            Tuple2(model.isLoading, model.currentForecast),
+                        builder: (context, tuple2, _) {
+                          if (tuple2.item1 == true && tuple2.item2 == null) {
+                            return Container(
+                              decoration: BoxDecoration(
+                                  color: kPrimaryTransparentColor,
+                                  borderRadius: BorderRadius.circular(10),
+                                  border: Border.all(
+                                      width: 1.5, color: Color(0xffB9BCF2))),
+                              width: double.infinity,
+                              height: 350,
+                              child: Center(
+                                child: SizedBox(
+                                  height: 25,
+                                  width: 25,
+                                  child: CircularProgressIndicator(),
+                                ),
+                              ),
+                            );
+                          }
+
+                          if (tuple2.item1 == false && tuple2.item2 == null) {
+                            return Container(
+                              decoration: BoxDecoration(
+                                  color: kPrimaryTransparentColor,
+                                  borderRadius: BorderRadius.circular(10),
+                                  border: Border.all(
+                                      width: 1.5, color: Color(0xffB9BCF2))),
+                              width: double.infinity,
+                              height: 350,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                mainAxisSize: MainAxisSize.max,
                                 children: [
+                                  Text(
+                                    "Failed to fetch forecast",
+                                    style: TextStyle(color: Colors.white),
+                                  ),
                                   SizedBox(
-                                    width: 80,
-                                    child: Image.asset(
-                                      "images/weather.png",
-                                      fit: BoxFit.fitWidth,
-                                    ),
+                                    height: 20,
                                   ),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        "Today",
-                                        style: TextStyle(
+                                  InkWell(
+                                    onTap: () {
+                                      Provider.of<ForecastModel>(context,
+                                              listen: false)
+                                          .loadForecasts();
+                                    },
+                                    child: Container(
+                                      padding:
+                                          EdgeInsets.only(left: 20, right: 20),
+                                      decoration: BoxDecoration(
+                                          color: Color.fromRGBO(
+                                              255, 255, 255, 0.1),
+                                          borderRadius:
+                                              BorderRadius.circular(15)),
+                                      height: 50,
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Text(
+                                            "Retry",
+                                            style:
+                                                TextStyle(color: Colors.white),
+                                          ),
+                                          SizedBox(
+                                            width: 10,
+                                          ),
+                                          Icon(
+                                            Icons.refresh,
                                             color: Colors.white,
-                                            fontSize: 24,
-                                            fontWeight: FontWeight.w500),
+                                          )
+                                        ],
                                       ),
-                                      Text(
-                                        "Mon, 26 Apr",
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.w500),
-                                      )
-                                    ],
-                                  )
-                                ],
-                              ),
-                              Row(
-                                mainAxisSize: MainAxisSize.min,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Container(
-                                    height: 200,
-                                    width: 189,
-                                    child: FittedBox(
-                                      child: Text(
-                                        "28",
-                                        style: TextStyle(color: Colors.white),
-                                      ),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.only(top: 40),
-                                    child: Text(
-                                      "°C",
-                                      style: TextStyle(
-                                          color: Colors.white, fontSize: 19),
                                     ),
                                   )
                                 ],
                               ),
-                              Text(
-                                "Lagos, Nigeria 2:00pm",
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 16),
-                              )
-                            ],
-                          ),
-                        ),
+                            );
+                          }
+
+                          return CurrentForecastCard(
+                            location: Provider.of<ForecastModel>(context,
+                                    listen: false)
+                                .aggregateForecast!
+                                .location!,
+                            forecast: tuple2.item2,
+                          );
+                        },
                       ),
                     )),
                     InkWell(
                       onTap: () {
-                        print("showing report");
                         setState(() {
                           showReport = true;
                         });

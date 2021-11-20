@@ -8,9 +8,9 @@ part of 'weather_model.dart';
 
 Weather _$WeatherFromJson(Map<String, dynamic> json) {
   return Weather(
-    icon: json['icon'] as String?,
-    description: json['description'] as String?,
-    id: json['id'] as int?,
+    icon: json['icon'] as String,
+    description: json['description'] as String,
+    id: json['id'] as int,
   );
 }
 

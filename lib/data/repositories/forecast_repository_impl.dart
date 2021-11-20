@@ -6,24 +6,24 @@ import 'package:forecast/data/network/network_info.dart';
 import 'package:forecast/domain/repositories/forecast_repository.dart';
 
 class ForecastRepositoryImpl implements ForecastRepository {
-  final ForecastRemoteDataSource? forecastRemoteDataSource;
-  final ForecastLocalDataSource? forecastLocalDataSource;
-  final NetworkInfo? networkInfo;
+  final ForecastRemoteDataSource forecastRemoteDataSource;
+  final ForecastLocalDataSource forecastLocalDataSource;
+  final NetworkInfo networkInfo;
 
   ForecastRepositoryImpl(
-      {@required this.forecastLocalDataSource,
-      @required this.forecastRemoteDataSource,
-      @required this.networkInfo});
+      {required this.forecastLocalDataSource,
+      required this.forecastRemoteDataSource,
+      required this.networkInfo});
 
   @override
   Future<AggregateForecast> getAggregateForecast(double lat, double lon) async {
-    if (await networkInfo!.isConnected) {
+    if (await networkInfo.isConnected) {
       final aggregateForecast =
-          await forecastRemoteDataSource!.getAggregateForecast(lat, lon);
-      forecastLocalDataSource!.cacheAggregateForecast(aggregateForecast);
+          await forecastRemoteDataSource.getAggregateForecast(lat, lon);
+      // forecastLocalDataSource.cacheAggregateForecast(aggregateForecast);
       return aggregateForecast;
     } else {
-      return forecastLocalDataSource!.getLastAggregateForecast(lat, lon);
+      return forecastLocalDataSource.getLastAggregateForecast(lat, lon);
     }
   }
 }

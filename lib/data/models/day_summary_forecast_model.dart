@@ -4,11 +4,12 @@ part 'day_summary_forecast_model.g.dart';
 
 @JsonSerializable()
 class DaySummaryForecast {
-  int? dt;
-  TempSummary? temp;
-  List<Weather>? weather;
+  int dt;
+  TempSummary temp;
+  List<Weather> weather;
 
-  DaySummaryForecast({this.weather, this.dt, this.temp});
+  DaySummaryForecast(
+      {required this.weather, required this.dt, required this.temp});
 
   factory DaySummaryForecast.fromJson(Map<String, dynamic> json) =>
       _$DaySummaryForecastFromJson(json);
@@ -18,14 +19,20 @@ class DaySummaryForecast {
 
 @JsonSerializable()
 class TempSummary {
-  double? day;
-  double? min;
-  double? max;
-  double? night;
-  double? eve;
-  double? morn;
+  double day;
+  double min;
+  double max;
+  double night;
+  double eve;
+  double morn;
 
-  TempSummary({this.max, this.day, this.eve, this.min, this.morn, this.night});
+  TempSummary(
+      {required this.max,
+      required this.day,
+      required this.eve,
+      required this.min,
+      required this.morn,
+      required this.night});
 
   factory TempSummary.fromJson(Map<String, dynamic> json) =>
       _$TempSummaryFromJson(json);

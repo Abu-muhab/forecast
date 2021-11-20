@@ -17,12 +17,15 @@ AggregateForecast _$AggregateForecastFromJson(Map<String, dynamic> json) {
     current: json['current'] == null
         ? null
         : Forecast.fromJson(json['current'] as Map<String, dynamic>),
-  );
+  )..location = json['location'] == null
+      ? null
+      : Location.fromJson(json['location'] as Map<String, dynamic>);
 }
 
 Map<String, dynamic> _$AggregateForecastToJson(AggregateForecast instance) =>
     <String, dynamic>{
       'current': instance.current,
       'hourly': instance.hourly,
+      'location': instance.location,
       'daily': instance.daily,
     };

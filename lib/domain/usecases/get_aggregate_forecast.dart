@@ -18,5 +18,5 @@ class Params {
   final double lat;
   final double lon;
 
-  Params({this.lat = -1, this.lon = -1});
+  Params({required this.lat, required this.lon});
 }
