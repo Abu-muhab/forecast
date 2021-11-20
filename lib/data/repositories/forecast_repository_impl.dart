@@ -18,13 +18,11 @@ class ForecastRepositoryImpl implements ForecastRepository {
   @override
   Future<AggregateForecast> getAggregateForecast(double lat, double lon) async {
     if (await networkInfo!.isConnected) {
-      print("connected");
       final aggregateForecast =
           await forecastRemoteDataSource!.getAggregateForecast(lat, lon);
       forecastLocalDataSource!.cacheAggregateForecast(aggregateForecast);
       return aggregateForecast;
     } else {
-      print("not connected");
       return forecastLocalDataSource!.getLastAggregateForecast(lat, lon);
     }
   }
