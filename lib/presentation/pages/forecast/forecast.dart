@@ -1,6 +1,8 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:forecast/constants.dart';
+import 'package:forecast/data/network/forecast_rest_client.dart';
 import 'package:forecast/presentation/pages/forecast/forecast_notification.dart';
 import 'package:forecast/presentation/pages/forecast/forecast_report.dart';
 
@@ -12,6 +14,20 @@ class ForecastScreen extends StatefulWidget {
 class _ForecastScreenState extends State<ForecastScreen> {
   bool showReport = false;
   bool showNotifications = false;
+
+  void test() async {
+    final dio = Dio();
+    final client = ForecastRestClient(dio);
+    client
+        .getAggregateForecast(9.0765, 7.3986)
+        .then((value) => print(value.toJson()));
+  }
+
+  @override
+  void initState() {
+    test();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

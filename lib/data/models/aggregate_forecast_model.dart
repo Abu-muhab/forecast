@@ -1,0 +1,18 @@
+import 'package:forecast/data/models/day_summary_forecast_model.dart';
+import 'package:forecast/data/models/forecast_model.dart';
+import 'package:json_annotation/json_annotation.dart';
+part 'aggregate_forecast_model.g.dart';
+
+@JsonSerializable()
+class AggregateForecast {
+  Forecast? current;
+  List<Forecast>? hourly;
+  List<DaySummaryForecast>? daily;
+
+  AggregateForecast({this.daily, this.hourly, this.current});
+
+  factory AggregateForecast.fromJson(Map<String, dynamic> json) =>
+      _$AggregateForecastFromJson(json);
+
+  Map<String, dynamic> toJson() => _$AggregateForecastToJson(this);
+}
