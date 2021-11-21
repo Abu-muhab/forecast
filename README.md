@@ -4,7 +4,7 @@ A basic weather forecast app built using https://openweathermap.org/api API
 
 ## Features
 * 5 hours forecast
-* Cuurent forecast
+* Curent forecast
 * 5 days forecast
 * Look up forecast for other locations via search
 * Google map location
