@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:forecast/data/models/notification_model.dart'
     as notificationModel;
 import 'package:forecast/util/util.dart';
-import 'package:intl/intl.dart';
 
 class ForecastNotificationTile extends StatelessWidget {
   final notificationModel.Notification notification;
