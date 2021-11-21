@@ -230,22 +230,24 @@ class _ForecastScreenState extends State<ForecastScreen> {
                         ),
                       ),
                       duration: Duration(milliseconds: 200)),
-                  AnimatedPositioned(
-                      top: showNotifications == false
-                          ? MediaQuery.of(context).size.height * 1.5
-                          : 0,
-                      child: SizedBox(
-                        height: MediaQuery.of(context).size.height,
-                        width: MediaQuery.of(context).size.width,
-                        child: ForecastNotification(
-                          onDismiss: () {
-                            setState(() {
-                              showNotifications = false;
-                            });
-                          },
-                        ),
-                      ),
-                      duration: Duration(milliseconds: 200))
+                  showNotifications == false
+                      ? Container()
+                      : AnimatedPositioned(
+                          top: showNotifications == false
+                              ? MediaQuery.of(context).size.height * 1.5
+                              : 0,
+                          child: SizedBox(
+                            height: MediaQuery.of(context).size.height,
+                            width: MediaQuery.of(context).size.width,
+                            child: ForecastNotification(
+                              onDismiss: () {
+                                setState(() {
+                                  showNotifications = false;
+                                });
+                              },
+                            ),
+                          ),
+                          duration: Duration(milliseconds: 200))
                 ],
               );
             },
