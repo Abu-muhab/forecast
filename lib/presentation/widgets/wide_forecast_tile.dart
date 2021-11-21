@@ -4,7 +4,8 @@ import 'package:forecast/data/models/day_summary_forecast_model.dart';
 
 class WideForecastTile extends StatelessWidget {
   final DaySummaryForecast forecast;
-  WideForecastTile({required this.forecast});
+  final bool useCelcius;
+  WideForecastTile({required this.forecast, this.useCelcius = true});
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -42,7 +43,7 @@ class WideForecastTile extends StatelessWidget {
               width: 20,
               child: FittedBox(
                 child: Text(
-                  "${forecast.tempC.floor().toInt()}",
+                  "${useCelcius ? forecast.tempC.floor().toInt() : forecast.tempF.toInt()}",
                   style: TextStyle(color: Colors.black),
                 ),
               ),
@@ -50,7 +51,7 @@ class WideForecastTile extends StatelessWidget {
             Padding(
               padding: EdgeInsets.only(top: 2),
               child: Text(
-                "°C",
+                useCelcius ? "°C" : "°F",
                 style: TextStyle(color: Colors.black, fontSize: 10),
               ),
             )

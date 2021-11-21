@@ -4,7 +4,8 @@ import 'package:forecast/data/models/forecast_model.dart';
 
 class NarrowForecastTile extends StatelessWidget {
   final Forecast forecast;
-  NarrowForecastTile({required this.forecast});
+  final bool useCelcius;
+  NarrowForecastTile({required this.forecast, this.useCelcius = true});
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -19,7 +20,7 @@ class NarrowForecastTile extends StatelessWidget {
               width: 20,
               child: FittedBox(
                 child: Text(
-                  "${forecast.tempC.toInt()}",
+                  "${useCelcius ? forecast.tempC.toInt() : forecast.tempF.toInt()}",
                   style: TextStyle(color: Colors.black),
                 ),
               ),
@@ -27,7 +28,7 @@ class NarrowForecastTile extends StatelessWidget {
             Padding(
               padding: EdgeInsets.only(top: 2),
               child: Text(
-                "°C",
+                useCelcius ? "°C" : "°F",
                 style: TextStyle(color: Colors.black, fontSize: 10),
               ),
             )

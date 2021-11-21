@@ -4,6 +4,7 @@ import 'package:forecast/constants.dart';
 import 'package:forecast/data/models/day_summary_forecast_model.dart';
 import 'package:forecast/data/models/forecast_model.dart';
 import 'package:forecast/presentation/providers/forecast_provider.dart';
+import 'package:forecast/presentation/providers/settings_provider.dart';
 import 'package:forecast/presentation/widgets/narrow_forecast_tile.dart';
 import 'package:forecast/presentation/widgets/wide_forecast_tile.dart';
 import 'package:provider/provider.dart';
@@ -124,6 +125,11 @@ class ForecastReport extends StatelessWidget {
                                       children: fiveHoursForecast
                                           .map((e) => NarrowForecastTile(
                                                 forecast: e,
+                                                useCelcius: Provider.of<
+                                                            SettingsProvider>(
+                                                        context,
+                                                        listen: true)
+                                                    .useCelcius,
                                               ))
                                           .toList(),
                                     );
@@ -190,6 +196,11 @@ class ForecastReport extends StatelessWidget {
                                                 children: [
                                                   WideForecastTile(
                                                     forecast: e,
+                                                    useCelcius: Provider.of<
+                                                                SettingsProvider>(
+                                                            context,
+                                                            listen: true)
+                                                        .useCelcius,
                                                   ),
                                                   Divider()
                                                 ],

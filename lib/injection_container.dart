@@ -10,6 +10,7 @@ import 'package:forecast/domain/usecases/find_loaction_from_text.dart';
 import 'package:forecast/domain/usecases/get_aggregate_forecast.dart';
 import 'package:forecast/presentation/providers/forecast_provider.dart';
 import 'package:forecast/presentation/providers/location_provider.dart';
+import 'package:forecast/presentation/providers/settings_provider.dart';
 import 'package:get_it/get_it.dart';
 import 'package:location/location.dart';
 
@@ -21,6 +22,7 @@ Future<void> init() async {
       () => ForecastProvider(getAggregateForecast: sl(), location: sl()));
   sl.registerFactory(
       () => LocationProvider(location: sl(), findLocationFromText: sl()));
+  sl.registerFactory(() => SettingsProvider());
 
   //use cases
   sl.registerLazySingleton(() => GetAggregateForecast(sl()));

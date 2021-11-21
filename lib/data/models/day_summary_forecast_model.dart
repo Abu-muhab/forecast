@@ -22,6 +22,10 @@ class DaySummaryForecast {
     return ((temp.max + temp.min) / 2) - 273;
   }
 
+  double get tempF {
+    return (tempC * (9 / 5)) + 32;
+  }
+
   DateTime get date {
     return DateTime.fromMillisecondsSinceEpoch(dt * 1000, isUtc: false);
   }

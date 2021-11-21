@@ -18,6 +18,10 @@ class Forecast {
     return temp - 273;
   }
 
+  double get tempF {
+    return (tempC * (9 / 5)) + 32;
+  }
+
   DateTime get date {
     return DateTime.fromMillisecondsSinceEpoch(dt * 1000, isUtc: false);
   }
