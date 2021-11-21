@@ -20,7 +20,9 @@ class ForecastRemoteDataSourceImpl implements ForecastRemoteDataSource {
     AggregateForecast forecast =
         await forecastRestClient.getAggregateForecast(lat, lon, API_KEY);
 
-    forecast.location = locations.first;
+    if (locations.isNotEmpty) {
+      forecast.location = locations.first;
+    }
 
     return forecast;
   }

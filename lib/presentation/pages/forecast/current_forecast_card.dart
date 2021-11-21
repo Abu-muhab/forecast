@@ -6,7 +6,7 @@ import 'package:forecast/data/models/location_model.dart';
 
 class CurrentForecastCard extends StatelessWidget {
   final Forecast forecast;
-  final Location location;
+  final Location? location;
 
   CurrentForecastCard({required this.forecast, required this.location});
 
@@ -89,7 +89,7 @@ class CurrentForecastCard extends StatelessWidget {
               ],
             ),
             Text(
-              "${location.formattedLocation} ${forecast.formattedTime}",
+              "${location == null ? "" : location!.formattedLocation} ${forecast.formattedTime}",
               style: TextStyle(color: Colors.white, fontSize: 16),
             )
           ],
