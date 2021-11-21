@@ -15,6 +15,7 @@ class ForecastProvider extends ChangeNotifier {
   bool _isLoading = false;
 
   bool _searchMode = false;
+  bool get searchMode => _searchMode;
 
   bool get isLoading => _isLoading;
 

@@ -12,6 +12,7 @@ import 'package:forecast/presentation/pages/forecast/forecast_notification.dart'
 import 'package:forecast/presentation/pages/forecast/forecast_report.dart';
 import 'package:forecast/presentation/providers/forecast_provider.dart';
 import 'package:forecast/presentation/providers/location_provider.dart';
+import 'package:forecast/presentation/providers/notification_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:tuple/tuple.dart';
 
@@ -80,6 +81,9 @@ class _ForecastScreenState extends State<ForecastScreen> {
                                 setState(() {
                                   showNotifications = true;
                                 });
+                                Provider.of<NotificationProvider>(context,
+                                        listen: false)
+                                    .markNotificationsAsRead();
                               },
                               onSearchButtonClicked: () {
                                 Navigator.pushNamed(context, "/search");

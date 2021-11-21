@@ -1,7 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:forecast/constants.dart';
+import 'package:forecast/data/models/notification_model.dart'
+    as notificationModel;
+import 'package:forecast/presentation/providers/notification_provider.dart';
 import 'package:forecast/presentation/widgets/forecast_notification_tile.dart';
+import 'package:provider/provider.dart';
 
 class ForecastNotification extends StatelessWidget {
   final Function()? onDismiss;
@@ -78,39 +82,47 @@ class ForecastNotification extends StatelessWidget {
                         ),
                       ),
                       SizedBox(
-                        height: 39,
+                        height: 15,
                       ),
                       Expanded(
-                          child: SingleChildScrollView(
-                        physics: BouncingScrollPhysics(),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "Earlier",
-                              style: TextStyle(
-                                  fontSize: 10,
-                                  color: Color(0xff737272),
-                                  fontWeight: FontWeight.w400),
-                            ),
-                            SizedBox(
-                              height: 15,
-                            ),
-                            ForecastNotificationTile(),
-                            SizedBox(
-                              height: 5,
-                            ),
-                            Divider(),
-                            SizedBox(
-                              height: 5,
-                            ),
-                            ForecastNotificationTile(),
-                            SizedBox(
-                              height: 5,
-                            ),
-                            Divider()
-                          ],
-                        ),
+                          child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Expanded(
+                            child: Selector<NotificationProvider,
+                                    List<notificationModel.Notification>>(
+                                builder: (context, notifications, _) {
+                                  if (notifications.isEmpty) {
+                                    return Center(
+                                      child: Text("No notifications"),
+                                    );
+                                  }
+                                  return SizedBox(
+                                    height: constraint.maxHeight,
+                                    child: ListView.builder(
+                                      physics: BouncingScrollPhysics(),
+                                      itemCount: notifications.length,
+                                      itemBuilder: (context, count) {
+                                        return Column(
+                                          children: [
+                                            ForecastNotificationTile(
+                                              notification:
+                                                  notifications[count],
+                                            ),
+                                            SizedBox(
+                                              height: 15,
+                                            ),
+                                            Divider(),
+                                          ],
+                                        );
+                                      },
+                                    ),
+                                  );
+                                },
+                                selector: (context, model) =>
+                                    model.notifications),
+                          )
+                        ],
                       ))
                     ],
                   ),

@@ -5,6 +5,7 @@ import 'package:forecast/presentation/pages/forecast/forecast.dart';
 import 'package:forecast/presentation/pages/search/search.dart';
 import 'package:forecast/presentation/providers/forecast_provider.dart';
 import 'package:forecast/presentation/providers/location_provider.dart';
+import 'package:forecast/presentation/providers/notification_provider.dart';
 import 'package:forecast/presentation/providers/settings_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -28,6 +29,14 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(
               create: (context) => sl<LocationProvider>()..checkPermission()),
           ChangeNotifierProvider(create: (context) => sl<SettingsProvider>()),
+          ChangeNotifierProxyProvider<ForecastProvider, NotificationProvider>(
+              create: (context) {
+            return sl<NotificationProvider>()
+              ..setForecastProvider(sl<ForecastProvider>());
+          }, update: (context, forcastProvider, notificationProvider) {
+            notificationProvider!.setForecastProvider(forcastProvider);
+            return notificationProvider;
+          }),
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,

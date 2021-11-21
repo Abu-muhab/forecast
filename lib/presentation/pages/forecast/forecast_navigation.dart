@@ -3,6 +3,7 @@ import 'package:forecast/constants.dart';
 import 'package:forecast/data/models/aggregate_forecast_model.dart';
 import 'package:forecast/data/models/place_search_result_model.dart';
 import 'package:forecast/presentation/providers/forecast_provider.dart';
+import 'package:forecast/presentation/providers/notification_provider.dart';
 import 'package:forecast/presentation/widgets/custom_icon_button.dart';
 import 'package:provider/provider.dart';
 import 'package:tuple/tuple.dart';
@@ -91,11 +92,34 @@ class ForecastNavigation extends StatelessWidget {
                   SizedBox(
                     width: 10,
                   ),
-                  CustomIconButton(
-                    onTap: () {
-                      onNotificationButtonClicked();
-                    },
-                    iconData: Icons.notifications,
+                  Stack(
+                    children: [
+                      CustomIconButton(
+                        onTap: () {
+                          onNotificationButtonClicked();
+                        },
+                        iconData: Icons.notifications,
+                      ),
+                      Selector<NotificationProvider, bool>(
+                        selector: (context, model) =>
+                            model.unreadNotificationsExist,
+                        builder: (context, unreadNotificationsExist, _) {
+                          return Positioned(
+                            top: 6,
+                            right: 6,
+                            child: Container(
+                              width: 10,
+                              height: 10,
+                              decoration: BoxDecoration(
+                                  color: unreadNotificationsExist
+                                      ? Colors.red
+                                      : Colors.transparent,
+                                  borderRadius: BorderRadius.circular(10)),
+                            ),
+                          );
+                        },
+                      )
+                    ],
                   )
                 ],
               )
