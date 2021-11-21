@@ -4,7 +4,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'day_summary_forecast_model.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class DaySummaryForecast {
   int dt;
   TempSummary temp;
@@ -39,7 +39,7 @@ class DaySummaryForecast {
   }
 }
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class TempSummary {
   double day;
   double min;

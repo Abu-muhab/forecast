@@ -1,7 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 part 'place_search_result_model.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class PlaceSearchResult {
   List<Place> candidates;
   String status;
@@ -12,7 +12,7 @@ class PlaceSearchResult {
   Map<String, dynamic> toJson() => _$PlaceSearchResultToJson(this);
 }
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class Place {
   @JsonKey(name: "formatted_address")
   String formattedAddress;
@@ -25,7 +25,7 @@ class Place {
   Map<String, dynamic> toJson() => _$PlaceToJson(this);
 }
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class Geometry {
   Location location;
   Geometry({required this.location});

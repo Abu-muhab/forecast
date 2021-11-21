@@ -4,7 +4,7 @@ import 'package:forecast/data/models/location_model.dart';
 import 'package:json_annotation/json_annotation.dart';
 part 'aggregate_forecast_model.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class AggregateForecast {
   Forecast? current;
   List<Forecast>? hourly;

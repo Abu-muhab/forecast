@@ -13,6 +13,7 @@ import 'package:forecast/presentation/providers/location_provider.dart';
 import 'package:forecast/presentation/providers/settings_provider.dart';
 import 'package:get_it/get_it.dart';
 import 'package:location/location.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 final sl = GetIt.instance;
 
@@ -38,7 +39,7 @@ Future<void> init() async {
   sl.registerLazySingleton<ForecastRemoteDataSource>(
       () => ForecastRemoteDataSourceImpl(forecastRestClient: sl()));
   sl.registerLazySingleton<ForecastLocalDataSource>(
-      () => ForecastLocalDataSourceImpl());
+      () => ForecastLocalDataSourceImpl(sharedPreferences: sl()));
 
   //network
   sl.registerLazySingleton<ForecastRestClient>(() => ForecastRestClient(sl()));
@@ -48,4 +49,6 @@ Future<void> init() async {
   //external
   sl.registerLazySingleton(() => Dio());
   sl.registerLazySingleton(() => Location());
+  SharedPreferences preferences = await SharedPreferences.getInstance();
+  sl.registerLazySingleton(() => preferences);
 }

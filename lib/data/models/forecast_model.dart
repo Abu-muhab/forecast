@@ -3,7 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:json_annotation/json_annotation.dart';
 part 'forecast_model.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class Forecast {
   int dt;
   double temp;

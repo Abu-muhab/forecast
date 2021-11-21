@@ -66,143 +66,150 @@ class _ForecastScreenState extends State<ForecastScreen> {
             builder: (context, constraint) {
               return Stack(
                 children: [
-                  RefreshIndicator(
-                      child: SingleChildScrollView(
-                        physics: AlwaysScrollableScrollPhysics(),
-                        child: Padding(
-                          padding: EdgeInsets.only(
-                              left: 24, right: 25, top: 30, bottom: 30),
-                          child: SizedBox(
-                            height: constraint.maxHeight - 60,
-                            child: Column(
-                              mainAxisSize: MainAxisSize.max,
-                              children: [
-                                ForecastNavigation(
-                                    place: widget.place,
-                                    onNotificationButtonClicked: () {
-                                      setState(() {
-                                        showNotifications = true;
-                                      });
-                                    },
-                                    onSearchButtonClicked: () {
-                                      Navigator.pushNamed(context, "/search");
-                                    }),
-                                Expanded(
-                                    child: Center(
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      ForecastMap(
-                                        place: widget.place,
-                                      ),
-                                      SizedBox(
-                                        height: 20,
-                                      ),
-                                      Selector<LocationProvider, Tuple2>(
-                                        selector: (context, model) => Tuple2(
-                                            model.isPermissionGranted,
-                                            model.isCheckingPermission),
-                                        builder: (context, tuple2, _) {
-                                          if (tuple2.item2 == true) {
-                                            return ForecastLoadingBox();
-                                          }
+                  Padding(
+                    padding: EdgeInsets.only(
+                        left: 24, right: 25, top: 30, bottom: 30),
+                    child: SizedBox(
+                      height: constraint.maxHeight - 60,
+                      child: Column(
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          ForecastNavigation(
+                              place: widget.place,
+                              onNotificationButtonClicked: () {
+                                setState(() {
+                                  showNotifications = true;
+                                });
+                              },
+                              onSearchButtonClicked: () {
+                                Navigator.pushNamed(context, "/search");
+                              }),
+                          Expanded(
+                              child: Center(
+                                  child: RefreshIndicator(
+                                      child: SingleChildScrollView(
+                                        physics:
+                                            AlwaysScrollableScrollPhysics(),
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            ForecastMap(
+                                              place: widget.place,
+                                            ),
+                                            SizedBox(
+                                              height: 20,
+                                            ),
+                                            Selector<LocationProvider, Tuple2>(
+                                              selector: (context, model) =>
+                                                  Tuple2(
+                                                      model.isPermissionGranted,
+                                                      model
+                                                          .isCheckingPermission),
+                                              builder: (context, tuple2, _) {
+                                                if (tuple2.item2 == true) {
+                                                  return ForecastLoadingBox();
+                                                }
 
-                                          if (tuple2.item1 == false) {
-                                            return ForecastActionBox(
-                                                onActionButtonPressed: () {
-                                                  Provider.of<LocationProvider>(
-                                                          context,
-                                                          listen: false)
-                                                      .checkPermission();
-                                                },
-                                                promptText:
-                                                    "Grant location permission",
-                                                actionButtonIcon:
-                                                    Icons.location_on,
-                                                actionButtonText: "Grant");
-                                          }
+                                                if (tuple2.item1 == false) {
+                                                  return ForecastActionBox(
+                                                      onActionButtonPressed:
+                                                          () {
+                                                        Provider.of<LocationProvider>(
+                                                                context,
+                                                                listen: false)
+                                                            .checkPermission();
+                                                      },
+                                                      promptText:
+                                                          "Grant location permission",
+                                                      actionButtonIcon:
+                                                          Icons.location_on,
+                                                      actionButtonText:
+                                                          "Grant");
+                                                }
 
-                                          return Selector<ForecastProvider,
-                                              Tuple2>(
-                                            selector: (context, model) =>
-                                                Tuple2(model.isLoading,
-                                                    model.currentForecast),
-                                            builder: (context, tuple2, _) {
-                                              if (tuple2.item1 == true &&
-                                                  tuple2.item2 == null) {
-                                                return ForecastLoadingBox();
-                                              }
+                                                return Selector<
+                                                    ForecastProvider, Tuple2>(
+                                                  selector: (context, model) =>
+                                                      Tuple2(
+                                                          model.isLoading,
+                                                          model
+                                                              .currentForecast),
+                                                  builder:
+                                                      (context, tuple2, _) {
+                                                    if (tuple2.item1 == true &&
+                                                        tuple2.item2 == null) {
+                                                      return ForecastLoadingBox();
+                                                    }
 
-                                              if (tuple2.item1 == false &&
-                                                  tuple2.item2 == null) {
-                                                return ForecastActionBox(
-                                                    onActionButtonPressed: () {
-                                                      loadOrRefreshForecast();
-                                                    },
-                                                    promptText:
-                                                        "Failed to fetch forecast",
-                                                    actionButtonIcon:
-                                                        Icons.refresh,
-                                                    actionButtonText: "Retry");
-                                              }
+                                                    if (tuple2.item1 == false &&
+                                                        tuple2.item2 == null) {
+                                                      return ForecastActionBox(
+                                                          onActionButtonPressed:
+                                                              () {
+                                                            loadOrRefreshForecast();
+                                                          },
+                                                          promptText:
+                                                              "Failed to fetch forecast",
+                                                          actionButtonIcon:
+                                                              Icons.refresh,
+                                                          actionButtonText:
+                                                              "Retry");
+                                                    }
 
-                                              return CurrentForecastCard(
-                                                location: Provider.of<
-                                                            ForecastProvider>(
-                                                        context,
-                                                        listen: false)
-                                                    .aggregateForecast!
-                                                    .location,
-                                                forecast: tuple2.item2,
-                                              );
-                                            },
-                                          );
-                                        },
-                                      )
-                                    ],
-                                  ),
-                                )),
-                                InkWell(
-                                  onTap: () {
-                                    setState(() {
-                                      showReport = true;
-                                    });
-                                  },
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                        color:
-                                            Color.fromRGBO(255, 255, 255, 0.1),
-                                        borderRadius: BorderRadius.circular(8)),
-                                    width: double.infinity,
-                                    height: 60,
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      mainAxisSize: MainAxisSize.max,
-                                      children: [
-                                        Text(
-                                          "Forecast report",
-                                          style: TextStyle(color: Colors.white),
+                                                    return CurrentForecastCard(
+                                                      location: Provider.of<
+                                                                  ForecastProvider>(
+                                                              context,
+                                                              listen: false)
+                                                          .aggregateForecast!
+                                                          .location,
+                                                      forecast: tuple2.item2,
+                                                    );
+                                                  },
+                                                );
+                                              },
+                                            )
+                                          ],
                                         ),
-                                        SizedBox(
-                                          width: 10,
-                                        ),
-                                        Icon(
-                                          Icons.keyboard_arrow_up_outlined,
-                                          color: Colors.white,
-                                        )
-                                      ],
-                                    ),
+                                      ),
+                                      onRefresh: () async {
+                                        await loadOrRefreshForecast();
+                                      }))),
+                          InkWell(
+                            onTap: () {
+                              setState(() {
+                                showReport = true;
+                              });
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  color: Color.fromRGBO(255, 255, 255, 0.1),
+                                  borderRadius: BorderRadius.circular(8)),
+                              width: double.infinity,
+                              height: 60,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                mainAxisSize: MainAxisSize.max,
+                                children: [
+                                  Text(
+                                    "Forecast report",
+                                    style: TextStyle(color: Colors.white),
                                   ),
-                                )
-                              ],
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  Icon(
+                                    Icons.keyboard_arrow_up_outlined,
+                                    color: Colors.white,
+                                  )
+                                ],
+                              ),
                             ),
-                          ),
-                        ),
+                          )
+                        ],
                       ),
-                      onRefresh: () async {
-                        await loadOrRefreshForecast();
-                      }),
+                    ),
+                  ),
                   AnimatedPositioned(
                       top: showReport == false
                           ? MediaQuery.of(context).size.height * 1.5

@@ -1,7 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 part 'location_model.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class Location {
   String name;
   double lat;

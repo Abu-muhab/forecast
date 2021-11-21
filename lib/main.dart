@@ -9,6 +9,7 @@ import 'package:forecast/presentation/providers/settings_provider.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   await init();
   runApp(MyApp());
 }
