@@ -17,7 +17,7 @@ PlaceSearchResult _$PlaceSearchResultFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$PlaceSearchResultToJson(PlaceSearchResult instance) =>
     <String, dynamic>{
-      'candidates': instance.candidates,
+      'candidates': instance.candidates.map((e) => e.toJson()).toList(),
       'status': instance.status,
     };
 
@@ -30,7 +30,7 @@ Place _$PlaceFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$PlaceToJson(Place instance) => <String, dynamic>{
       'formatted_address': instance.formattedAddress,
-      'geometry': instance.geometry,
+      'geometry': instance.geometry.toJson(),
     };
 
 Geometry _$GeometryFromJson(Map<String, dynamic> json) {
@@ -40,7 +40,7 @@ Geometry _$GeometryFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$GeometryToJson(Geometry instance) => <String, dynamic>{
-      'location': instance.location,
+      'location': instance.location.toJson(),
     };
 
 Location _$LocationFromJson(Map<String, dynamic> json) {

@@ -19,8 +19,8 @@ DaySummaryForecast _$DaySummaryForecastFromJson(Map<String, dynamic> json) {
 Map<String, dynamic> _$DaySummaryForecastToJson(DaySummaryForecast instance) =>
     <String, dynamic>{
       'dt': instance.dt,
-      'temp': instance.temp,
-      'weather': instance.weather,
+      'temp': instance.temp.toJson(),
+      'weather': instance.weather.map((e) => e.toJson()).toList(),
     };
 
 TempSummary _$TempSummaryFromJson(Map<String, dynamic> json) {

@@ -11,7 +11,7 @@ class AggregateForecast {
   Location? location;
   List<DaySummaryForecast>? daily;
 
-  AggregateForecast({this.daily, this.hourly, this.current});
+  AggregateForecast({this.daily, this.hourly, this.current, this.location});
 
   factory AggregateForecast.fromJson(Map<String, dynamic> json) =>
       _$AggregateForecastFromJson(json);
