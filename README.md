@@ -1,16 +1,20 @@
-# forecast
+# Forecast
 
-A new Flutter project.
+A basic weather forecast app built using https://openweathermap.org/api API
 
-## Getting Started
+## Features
+* 5 hours forecast
+* Cuurent forecast
+* 5 days forecast
+* Look up forecast for other locations via search
+* Google map location
 
-This project is a starting point for a Flutter application.
+<h2 align="left">Screenshots</h2>
+<h4 align="center">
+<img src="https://firebasestorage.googleapis.com/v0/b/abumuhab.appspot.com/o/Screenshot_20211121-152551.jpg?alt=media&token=258c97ca-8828-442c-8bad-8895b7da3096" width="30%" vspace="10" hspace="10">
+<img src="https://firebasestorage.googleapis.com/v0/b/abumuhab.appspot.com/o/Screenshot_20211121-152555.jpg?alt=media&token=90187ad7-0dda-41db-8562-00a359738926" width="30%" vspace="10" hspace="10">
+<img src="https://firebasestorage.googleapis.com/v0/b/abumuhab.appspot.com/o/Screenshot_20211121-152958.jpg?alt=media&token=19b273f6-8112-4f89-ae93-7eb866f79877" width="30%" vspace="10" hspace="10"><br>
 
-A few resources to get you started if this is your first Flutter project:
+## Author
+Abumuhab
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
