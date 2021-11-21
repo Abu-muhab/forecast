@@ -56,12 +56,15 @@ class ForecastProvider extends ChangeNotifier {
     _isLoading = true;
     notifyListeners();
     try {
-      LocationData locationData = await location.getLocation();
+      LocationData? locationData;
+      if (params == null) {
+        locationData = await location.getLocation();
+      }
       AggregateForecast forecast = await getAggregateForecast.call(
           params: params != null
               ? params
               : GetAggregateForecastParams(
-                  lat: locationData.latitude!, lon: locationData.longitude!));
+                  lat: locationData!.latitude!, lon: locationData.longitude!));
       _isLoading = false;
       if (_searchMode) {
         _searchAggregateForecast = forecast;
